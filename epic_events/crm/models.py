@@ -33,27 +33,17 @@ class CustomUserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 class UserFunction(models.Model):
-    function_choices = {
-        ('admin', 'admin'),
-        ('sales', 'sales'),
-        ('support', 'support')
-    }
-    function = models.CharField(_("function"), max_length=50,choices=function_choices)
+    name = models.CharField(_("function name"), max_length=50)
 
     def __str__(self):
-        return self.function
+        return self.name
 
 
 class EventStatus(models.Model):
-    status_choices = {
-        ('planning', 'planning'),
-        ('running', 'running'),
-        ('ended', 'ended'),
-    }
-    status = models.CharField(_("status"), max_length=50,choices=status_choices)
+    name = models.CharField(_("event status"), max_length=50)
 
     def __str__(self):
-        return self.status
+        return self.name
 
 
 class CustomUser(AbstractUser):
@@ -103,7 +93,7 @@ class Event(models.Model):
 class Contract(models.Model):
     sales_contact = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=True, null=True)
+    event = models.OneToOneField(Event, on_delete=models.DO_NOTHING, blank=True, null=True)
     status = models.BooleanField('signed')
     amount = models.FloatField()
     payment_due = models.DateTimeField()
