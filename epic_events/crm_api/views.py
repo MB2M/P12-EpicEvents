@@ -15,9 +15,9 @@ class ClientList(generics.ListCreateAPIView):
     List all clients, or create a new client.
     """
     permission_classes = [DjangoModelPermissions]
-
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
+    filterset_fields = ['first_name', 'last_name', 'email', 'phone', 'mobile', 'compagny_name', 'prospect']
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -34,6 +34,7 @@ class ClientDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsSales|IsManager]
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
+    lookup_url_kwarg = 'client'
 
     def put(self, request, *args, **kwargs):
         user = request.user
@@ -49,6 +50,7 @@ class ContractList(generics.ListCreateAPIView):
     """
     permission_classes = [DjangoModelPermissions&IsSales|IsManager]
     serializer_class = ContractSerializer
+    filterset_fields = ['status', 'amount', 'client']
 
     def get_queryset(self):
         client_id = self.kwargs['client']
@@ -101,6 +103,7 @@ class EventList(generics.ListCreateAPIView):
     """
     permission_classes = [DjangoModelPermissions&IsSales|IsManager]
     serializer_class = EventSerializer
+    filterset_fields = ['event_status', 'attendees', 'event_date']
 
     def get_queryset(self):
         client_id = self.kwargs['client']
