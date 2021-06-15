@@ -17,7 +17,7 @@ class ClientList(generics.ListCreateAPIView):
     permission_classes = [DjangoModelPermissions]
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
-    filterset_fields = ['first_name', 'last_name', 'email', 'phone', 'mobile', 'compagny_name', 'prospect']
+    filterset_fields = ['first_name', 'last_name', 'email', 'phone', 'mobile', 'compagny_name', 'propect']
 
     def post(self, request, *args, **kwargs):
         user = request.user
