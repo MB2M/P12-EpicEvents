@@ -45,6 +45,9 @@ class EventStatus(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Event Status'
+
 
 class CustomUser(AbstractUser):
     username = None
